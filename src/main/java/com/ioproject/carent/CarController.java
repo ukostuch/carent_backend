@@ -1,6 +1,8 @@
 package com.ioproject.carent;
 
 
+import com.mongodb.client.result.UpdateResult;
+import com.mongodb.internal.bulk.UpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -84,6 +87,15 @@ public class CarController {
     @GetMapping("/searchby")
     public ResponseEntity<List<Car>> getCarsDates(@RequestParam(required = true) String dateFrom, @RequestParam(required = true) String dateTo) {
         return new ResponseEntity<>(carService.findAvailableCarsBetweenDates(dateFrom, dateTo),HttpStatus.OK);
+    }
+
+    @PatchMapping("/update/{id}/techcond")
+    public ResponseEntity<UpdateResult> updateTechCondition(@PathVariable int id, @RequestBody Map<String,Double> updateRequest) {
+        return new ResponseEntity<UpdateResult>(carService.updateTechCond(id,updateRequest.get("updateValue")),HttpStatus.OK);
+    }
+    @PatchMapping("/update/{id}/techdesc")
+    public ResponseEntity<UpdateResult> updateTechDescription(@PathVariable int id, @RequestBody Map<String,String> updateRequest) {
+        return new ResponseEntity<>(carService.updateTechDesc(id,updateRequest.get("updateValue")),HttpStatus.OK);
     }
 
 }

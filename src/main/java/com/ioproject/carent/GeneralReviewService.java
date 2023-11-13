@@ -1,6 +1,7 @@
 package com.ioproject.carent;
 
 
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -39,7 +40,7 @@ public class GeneralReviewService {
     }
 
     public List<GeneralReview> getAllReviews(){return generalReviewRepository.findAll();}
-    public void deleteRecord(int id) {
-        mongoTemplate2.remove(Query.query(Criteria.where("genCommentId").is(id)), GeneralReview.class);
+    public DeleteResult deleteRecord(int id) {
+        return mongoTemplate2.remove(Query.query(Criteria.where("genCommentId").is(id)), GeneralReview.class);
     }
 }
