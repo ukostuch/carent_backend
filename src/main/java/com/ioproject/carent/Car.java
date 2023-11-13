@@ -38,5 +38,4 @@ public class Car {
     private String sidePhoto;
     private String insidePhoto;
 
-
 }

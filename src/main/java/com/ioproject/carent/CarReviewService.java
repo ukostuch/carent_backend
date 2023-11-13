@@ -1,6 +1,7 @@
 package com.ioproject.carent;
 
 
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -43,7 +44,7 @@ public class CarReviewService {
         return carReviewRepository.findCarReviewByCarCommentId(carId);
     }
     public List<CarReview> getCarReviewsofCar(int carId){return carReviewRepository.findCarReviewsByCarId(carId);}
-    public void deleteRecord(int id) {
-        mongoTemplate.remove(Query.query(Criteria.where("carCommentId").is(id)), CarReview.class);
+    public DeleteResult deleteRecord(int id) {
+        return mongoTemplate.remove(Query.query(Criteria.where("carCommentId").is(id)), CarReview.class);
     }
 }

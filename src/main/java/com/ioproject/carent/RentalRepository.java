@@ -10,4 +10,6 @@ import java.util.List;
 public interface RentalRepository extends MongoRepository<Rental, ObjectId> {
     List<Rental> findRentalsByUserId(int userId);
     List<Rental> findByDateFromLessThanEqualAndDateToGreaterThanEqual(String dateTo,String dateFrom);
+    List<Rental> findByIsCurrent(boolean cond);
+    List<Rental> findByCarId(int carId);
 }

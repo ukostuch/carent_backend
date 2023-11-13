@@ -1,6 +1,7 @@
 package com.ioproject.carent;
 
 import com.ioproject.carent.CarService;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -29,8 +30,9 @@ public class GeneralReviewController {
         return new ResponseEntity<List<GeneralReview>>(genReviewService.getAllReviews(),HttpStatus.OK);
     }
 
-    @PostMapping("/reviews/delete/{id}")
-    public void delete(@PathVariable int id){
-        genReviewService.deleteRecord(id);
+    @DeleteMapping("/reviews/delete/{id}")
+    public ResponseEntity<DeleteResult> delete(@PathVariable int id){
+
+        return new ResponseEntity<>(genReviewService.deleteRecord(id),HttpStatus.OK);
     }
 }
