@@ -42,10 +42,18 @@ public class Rental {
         setDateFrom(dateFrom);
         setDateTo(dateTo);
         setCost(cost);
-        setIsCurrent(true);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate specifiedDate = LocalDate.parse(dateFrom, formatter);
+        LocalDate today = LocalDate.now();
+        if (specifiedDate.isAfter(today)) {
+            setIsCurrent(false);
+        } else {
+            setIsCurrent(true);
+        }
         setIsPaid(true);
         setLocationId(car_id/100);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Period period = Period.between(LocalDate.parse(dateFrom,formatter),LocalDate.parse(dateTo,formatter));
         int inf = period.getDays()+1;
         setHowManyDays(inf);
