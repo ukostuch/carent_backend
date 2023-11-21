@@ -19,9 +19,9 @@ public class CarReviewService {
     private MongoTemplate mongoTemplate;
 
     public CarReview createReview(String comment,
-    int carId, String userName,
-    String userCountry, int user){
-        return insertCarReview(new CarReview(findCarCommentId(),user,5,comment,carId,userName,userCountry));
+                                  int carId, String userName,
+                                  String userCountry){
+        return insertCarReview(new CarReview(findCarCommentId(),5,comment,carId,userName,userCountry));
     }
 
 

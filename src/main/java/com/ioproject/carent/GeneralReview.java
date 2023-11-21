@@ -16,15 +16,13 @@ public class GeneralReview {
     @Id
     private ObjectId id;
     private int genCommentId;
-    private int userId;
     private int rating;
     private String comment;
     private String userName;
     private String userCountry;
 
-    public GeneralReview(int generalCommentId, int user, int i, String comment, String userName, String userCountry) {
+    public GeneralReview(int generalCommentId, int i, String comment, String userName, String userCountry) {
         setGenCommentId(generalCommentId);
-        setUserId(user);
         setRating(i);
         setComment(comment);
         setUserName(userName);

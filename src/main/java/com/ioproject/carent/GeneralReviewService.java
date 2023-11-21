@@ -19,8 +19,8 @@ public class GeneralReviewService {
     private MongoTemplate mongoTemplate2;
 
     public GeneralReview createReview(String comment, String userName,
-                                  String userCountry, int user){
-        return insertGeneralReview(new GeneralReview(findGeneralCommentId(),user,5,comment,userName,userCountry));
+                                      String userCountry){
+        return insertGeneralReview(new GeneralReview(findGeneralCommentId(),5,comment,userName,userCountry));
     }
 
 

@@ -21,7 +21,7 @@ public class CarReviewController {
 
     @PostMapping("/carreview/write")
     public ResponseEntity<CarReview> createReview(@RequestBody Map<String,Object> payload){
-        return new ResponseEntity<CarReview>(carReviewService.createReview((String) payload.get("comment"), (Integer) payload.get("carId"),(String)payload.get("userName"),(String)payload.get("userCountry"),(Integer) payload.get("userId")), HttpStatus.CREATED);
+        return new ResponseEntity<CarReview>(carReviewService.createReview((String) payload.get("comment"), (Integer) payload.get("carId"),(String)payload.get("userName"),(String)payload.get("userCountry")), HttpStatus.CREATED);
     }
 
     @GetMapping("/carreview/{revId}")
@@ -38,5 +38,4 @@ public class CarReviewController {
     public ResponseEntity<DeleteResult> delete(@PathVariable int id){
         return new ResponseEntity<>(carReviewService.deleteRecord(id),HttpStatus.OK);
     }
-
 }

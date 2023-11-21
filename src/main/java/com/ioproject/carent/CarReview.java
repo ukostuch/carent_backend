@@ -16,16 +16,14 @@ public class CarReview {
     @Id
     private ObjectId id;
     private int carCommentId;
-    private int userId;
     private int rating;
     private String comment;
     private int carId;
     private String userName;
     private String userCountry;
 
-    public CarReview(int carCommentId, int i, int i1, String comment, int carId, String userName, String userCountry) {
+    public CarReview(int carCommentId, int i1, String comment, int carId, String userName, String userCountry) {
         setCarCommentId(carCommentId);
-        setUserId(i);
         setRating(i1);
         setComment(comment);
         setCarId(carId);

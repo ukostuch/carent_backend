@@ -21,7 +21,7 @@ public class GeneralReviewController {
 
     @PostMapping("/reviews/write")
     public ResponseEntity<GeneralReview> createReview(@RequestBody Map<String,Object> payload){
-        return new ResponseEntity<GeneralReview>(genReviewService.createReview((String) payload.get("comment"), (String) payload.get("userName"), (String) payload.get("userCountry"), (Integer) payload.get("userId")), HttpStatus.CREATED);
+        return new ResponseEntity<GeneralReview>(genReviewService.createReview((String) payload.get("comment"), (String) payload.get("userName"), (String) payload.get("userCountry")), HttpStatus.CREATED);
     }
 
 

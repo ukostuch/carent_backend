@@ -10,7 +10,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Document(collection="users")
@@ -33,7 +35,9 @@ public class User {
     private boolean loggedIn;
     private String password;
 
-    public User(int user_id, String username, String name, String surname, String email, int phoneNumber, int birthYear, int birthMonth, int birthDay, String seriesDriverLicense, String password){
+    private Collection<Role> roles;
+
+    public User(int user_id, String username, String name, String surname, String email, int phoneNumber, int birthYear, int birthMonth, int birthDay, String seriesDriverLicense, String password, List<Role> roles){
         setUserId(user_id);
         setUsername(username);
         setName(name);
@@ -47,5 +51,6 @@ public class User {
         setSeriesDriverLicense(seriesDriverLicense);
         setPassword(password);
         setLoggedIn(false);
+        setId(new ObjectId());
     }
 }

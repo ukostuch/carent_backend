@@ -1,5 +1,6 @@
 package com.ioproject.carent;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/users/new")
-    public ResponseEntity<User> addNewUser(@RequestBody Map<String,Object> payload){
-        return new ResponseEntity<User>(userService.createUser(userService.findUserId(),(String) payload.get("username"),(String) payload.get("name"), (String) payload.get("surname"), (String) payload.get("email"),(Integer) payload.get("phoneNumber"),(Integer) payload.get("birthYear"),(Integer)payload.get("birthMonth"),(Integer)payload.get("birthDay"),(String)payload.get("driversLicense"),(String)payload.get("password"),(String)payload.get("street"),(String) payload.get("country"),(String) payload.get("city"),(Integer)payload.get("postcode")), HttpStatus.CREATED);
+    @GetMapping("/update/user/{id}/{password}")
+    public ResponseEntity<UpdateResult> updateUserPassword(@PathVariable int id, @PathVariable String password) {
+        return new ResponseEntity<>(userService.updatePassword(id,password),HttpStatus.OK);
+    }
+
+    @PostMapping("/add/user")
+    public ResponseEntity<User> addUser(@RequestBody Map<String,Object> payload){
+        return new ResponseEntity<>(userService.add((String) payload.get("username"),(String) payload.get("firstName"), (String) payload.get("surname"),(String) payload.get("email"),(String) payload.get("password"),(int) payload.get("phoneNumber"),(int) payload.get("birthYear"),(int) payload.get("birthMonth"),(int) payload.get("birthDay"),(String) payload.get("seriesDriverLicense"),
+                (String) payload.get("street"), (String) payload.get("city"), (String) payload.get("country"), (int) payload.get("postcode")), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/users/delete/{id}")
