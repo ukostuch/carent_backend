@@ -31,7 +31,7 @@ public class UserService {
         return userRepository.existsByUsername(username);
     }
     public User add(String username,String firstName, String lastName,String email,String password,int phoneNumber,int birthYear,int birthMonth,int birthDay,String seriesDriverLicense,String street, String city, String country, int postcode){
-        User user = new User(findUserId(),username,firstName,lastName,email,phoneNumber,birthYear,birthMonth,birthDay,seriesDriverLicense,password, Arrays.asList(new Role("ROLE_USER")));
+        User user = new User(findUserId(),username,firstName,lastName,email,phoneNumber,birthYear,birthMonth,birthDay,seriesDriverLicense,password);
         addressService.createAdress(findUserId(),street,city,country,postcode);
         return mongoTemplate.insert(user);
     }
@@ -85,4 +85,12 @@ public class UserService {
         Update update = new Update().set("roles",Arrays.asList(new Role("ROLE_USER")));
     }
 
+    public boolean authenticateUser(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && user.getPassword().equals(password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

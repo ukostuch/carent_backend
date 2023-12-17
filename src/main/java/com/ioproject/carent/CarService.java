@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,57 @@ public class CarService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+    public List<Car> getCarsOfCarBrand(String carBrand) {
+        return carRepository.findCarsByCarBrand(carBrand);
+    }
+
+    public List<Car> getCarsWithGearAndFuelAndCarBrand(String gear, String fuel, String carBrand) {
+        return carRepository.findCarsByFuelAndGearAndCarBrand(fuel, gear, carBrand);
+    }
+    public List<Car> getCarsWithGearAndTypeAndCarBrand(String gear, String type, String carBrand) {
+        return carRepository.findCarsByTypeAndGearAndCarBrand(type, gear, carBrand);
+    }
+    public List<Car> getCarsFromLocationAndCarBrand(int locationId, String carBrand) {
+        return carRepository.findCarsByLocationIdAndCarBrand(locationId, carBrand);
+    }
+    public List<Car> getCarsWithGearAndCarBrand(String gear, String carBrand) {
+        return carRepository.findCarsByGearAndCarBrand(gear, carBrand);
+    }
+    public List<Car> getCarsOfTypeAndCarBrand(String type, String carBrand) {
+        return carRepository.findCarsByTypeAndCarBrand(type, carBrand);
+    }
+    public List<Car> getCarsOfFuelAndCarBrand(String fuel, String carBrand) {
+        return carRepository.findCarsByFuelAndCarBrand(fuel, carBrand);
+    }
+    public List<Car> getCarsWithGearAndLocationAndCarBrand(String gear, int locationId, String carBrand) {
+        return carRepository.findCarsByLocationIdAndGearAndCarBrand(locationId, gear, carBrand);
+    }
+    public List<Car> getCarsWithFuelAndLocationIdAndCarBrand(String fuel, int locationId, String carBrand) {
+        return carRepository.findCarsByLocationIdAndFuelAndCarBrand(locationId, fuel, carBrand);
+    }
+    public List<Car> getCarsWithTypeAndLocationIdAndCarBrand(String type, int locationId, String carBrand) {
+        return carRepository.findCarsByLocationIdAndTypeAndCarBrand(locationId, type, carBrand);
+    }
+    public List<Car> getCarsWithFuelAndTypeAndCarBrand(String fuel, String type, String carBrand) {
+        return carRepository.findCarsByTypeAndFuelAndCarBrand(type, fuel, carBrand);
+    }
+    public List<Car> getCarsWithFuelAndTypeAndGearAndCarBrand(String fuel, String type, String gear, String carBrand) {
+        return carRepository.findCarsByFuelAndTypeAndGearAndCarBrand(fuel, type, gear,carBrand);
+    }
+    public List<Car> getCarsWithFuelAndTypeAndLocationAndCarBrand(String fuel, String type, int locationId, String carBrand) {
+        return carRepository.findCarsByLocationIdAndFuelAndTypeAndCarBrand(locationId, fuel, type, carBrand);
+    }
+    public List<Car> getCarsWithFuelAndGearAndLocationAndCarBrand(String fuel, String gear, int locationId, String carBrand) {
+        return carRepository.findCarsByLocationIdAndFuelAndGearAndCarBrand(locationId, fuel, gear, carBrand);
+    }
+    public List<Car> getCarsWithGearAndTypeAndLocationAndCarBrand(String gear, String type, int locationId, String carBrand) {
+        return carRepository.findCarsByLocationIdAndTypeAndGearAndCarBrand(locationId, type, gear,carBrand);
+    }
+    public List<Car> getCarsWithFuelAndTypeAndLocationAndGearAndCarBrand(String fuel, String type, int locationId, String gear, String carBrand) {
+        return carRepository.findCarsByLocationIdAndFuelAndTypeAndGearAndCarBrand(locationId, fuel, type, gear,carBrand);
+    }
+
+
 
     public List<Car> getAllCars() {
         return carRepository.findAll();
@@ -106,8 +158,22 @@ public class CarService {
                 .collect(Collectors.toList());
     }
 
-    public List<Car> getCarsWithAllParameters(String fuel, String type, int locationId, String gear, String dateFrom,String dateTo){
+    /*public List<Car> getCarsWithAllParameters(String fuel, String type, int locationId, String gear, String dateFrom,String dateTo){
         List<Car> temp = getCarsWithFuelAndTypeAndLocationAndGear(fuel,type,locationId,gear);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }*/
+    public List<Car> findAvailableCarsBetweenDatesAndCarBrand(String dateFrom,String dateTo,String carBrand){
+        List<Car> temp = getCarsOfCarBrand(carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
+    public List<Car> getCarsWithAllParameters(String fuel, String type, int locationId, String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithFuelAndTypeAndLocationAndCarBrand(fuel,type,locationId,carBrand);
         List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
         List<Car> commonCars = new ArrayList<>(temp);
         commonCars.retainAll(temp2);
@@ -121,6 +187,13 @@ public class CarService {
         commonCars.retainAll(temp2);
         return commonCars;
     }
+    public List<Car> getCarsWithGTLandDatesAndCarBrand(String gear, String type, int locationId,String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithGearAndTypeAndLocationAndCarBrand(gear,type,locationId,carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
 
     public List<Car> getCarsWithFGLandDates(String fuel, String gear, int locationId,String dateFrom,String dateTo){
         List<Car> temp = getCarsWithFuelAndGearAndLocation(fuel,gear,locationId);
@@ -129,7 +202,21 @@ public class CarService {
         commonCars.retainAll(temp2);
         return commonCars;
     }
+    public List<Car> getCarsWithFGLandDatesAndCarBrand(String fuel, String gear, int locationId,String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithFuelAndGearAndLocationAndCarBrand(fuel,gear,locationId,carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
 
+    public List<Car> getCarsWithFTLandDatesAndCarBrand(String fuel, String type, int locationId,String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithFuelAndTypeAndLocationAndCarBrand(fuel,type,locationId,carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
     public List<Car> getCarsWithFTLandDates(String fuel, String type, int locationId,String dateFrom,String dateTo){
         List<Car> temp = getCarsWithFuelAndTypeAndLocation(fuel,type,locationId);
         List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
@@ -145,9 +232,23 @@ public class CarService {
         commonCars.retainAll(temp2);
         return commonCars;
     }
+    public List<Car> getCarsWithFTGandDatesAndBrandCar(String fuel, String type, String gear,String dateFrom,String dateTo,String carBrand){
+        List<Car> temp = getCarsWithFuelAndTypeAndGearAndCarBrand(fuel, type, gear, carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
 
     public List<Car> getCarsWithFTandDates(String fuel, String type,String dateFrom,String dateTo){
         List<Car> temp = getCarsWithFuelAndType(fuel, type);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
+    public List<Car> getCarsWithFTandDatesAndCarBrand(String fuel, String type,String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithFuelAndTypeAndCarBrand(fuel, type, carBrand);
         List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
         List<Car> commonCars = new ArrayList<>(temp);
         commonCars.retainAll(temp2);
@@ -161,9 +262,23 @@ public class CarService {
         commonCars.retainAll(temp2);
         return commonCars;
     }
+    public List<Car> getCarsWithTLandDatesAndCarBrand(String type, int locationId,String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithTypeAndLocationIdAndCarBrand(type,locationId, carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
 
     public List<Car> getCarsWithFLandDates(String fuel, int locationId,String dateFrom,String dateTo){
         List<Car> temp = getCarsWithFuelAndLocationId(fuel, locationId);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
+    public List<Car> getCarsWithFLandDatesAndCarBrand(String fuel, int locationId,String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithFuelAndLocationIdAndCarBrand(fuel, locationId, carBrand);
         List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
         List<Car> commonCars = new ArrayList<>(temp);
         commonCars.retainAll(temp2);
@@ -177,6 +292,13 @@ public class CarService {
         commonCars.retainAll(temp2);
         return commonCars;
     }
+    public List<Car> getCarsWithGLandDatesAndCarBrand(String gear, int locationId,String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithGearAndLocationAndCarBrand(gear,locationId, carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
 
     public List<Car> getCarsWithGTandDates(String gear, String type, String dateFrom,String dateTo){
         List<Car> temp = getCarsWithGearAndType(gear,type);
@@ -185,9 +307,23 @@ public class CarService {
         commonCars.retainAll(temp2);
         return commonCars;
     }
+    public List<Car> getCarsWithGTandDatesAndCarBrand(String gear, String type, String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithGearAndTypeAndCarBrand(gear,type, carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
 
     public List<Car> getCarsWithGFandDates(String gear, String fuel, String dateFrom,String dateTo){
         List<Car> temp = getCarsWithGearAndFuel(gear,fuel);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
+    public List<Car> getCarsWithGFandDatesAndCarBrand(String gear, String fuel, String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithGearAndFuelAndCarBrand(gear,fuel, carBrand);
         List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
         List<Car> commonCars = new ArrayList<>(temp);
         commonCars.retainAll(temp2);
@@ -202,9 +338,23 @@ public class CarService {
         commonCars.retainAll(temp2);
         return commonCars;
     }
+    public List<Car> getCarsWithFuelandDatesAndCArBrand(String fuel, String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsOfFuelAndCarBrand(fuel, carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
 
     public List<Car> getCarsWithGearandDates(String gear, String dateFrom,String dateTo){
         List<Car> temp = getCarsWithGear(gear);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
+    public List<Car> getCarsWithGearandDatesAndCarBrand(String gear, String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsWithGearAndCarBrand(gear, carBrand);
         List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
         List<Car> commonCars = new ArrayList<>(temp);
         commonCars.retainAll(temp2);
@@ -218,9 +368,23 @@ public class CarService {
         commonCars.retainAll(temp2);
         return commonCars;
     }
+    public List<Car> getCarsWithLocationandDatesAndCarBrand(int locationId,String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsFromLocationAndCarBrand(locationId, carBrand);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
 
     public List<Car> getCarsWithTypeandDates(String type,String dateFrom,String dateTo){
         List<Car> temp = getCarsOfType(type);
+        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
+        List<Car> commonCars = new ArrayList<>(temp);
+        commonCars.retainAll(temp2);
+        return commonCars;
+    }
+    public List<Car> getCarsWithTypeandDatesAndCarBrand(String type,String dateFrom,String dateTo, String carBrand){
+        List<Car> temp = getCarsOfTypeAndCarBrand(type, carBrand);
         List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
         List<Car> commonCars = new ArrayList<>(temp);
         commonCars.retainAll(temp2);
@@ -238,4 +402,12 @@ public class CarService {
         Update update = new Update().set("technicalCondition", newFieldValue);
         return mongoTemplate.updateFirst(query, update, Car.class);
     }
+
+
+
+
+
 }
+
+
+

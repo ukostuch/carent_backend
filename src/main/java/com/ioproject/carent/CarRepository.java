@@ -25,5 +25,25 @@ public interface CarRepository extends MongoRepository<Car, ObjectId> {
     List<Car> findCarsByFuel(String fuel);
     List<Car> findCarsByGear(String gear);
     List<Car> findCarsByType(String type);
+    List<Car> findCarsByCarBrand(String carBrand);  //dodane
+    List<Car> findCarsByFuelAndGearAndCarBrand(String fuel,String gear, String carBrand);
 
- }
+    List<Car> findCarsByLocationIdAndFuelAndTypeAndGearAndCarBrand(int locationId,String fuel,String type,String gearType, String carBrand);
+    List<Car> findCarsByLocationIdAndTypeAndGearAndCarBrand(int locationId, String type, String gearType, String carBrand);
+    List<Car> findCarsByLocationIdAndFuelAndGearAndCarBrand(int locationId,String fuel,String gearType, String carBrand);
+
+    List<Car> findCarsByLocationIdAndFuelAndTypeAndCarBrand(int locationId,String fuel,String type, String carBrand);
+    List<Car> findCarsByFuelAndTypeAndGearAndCarBrand(String fuel,String type,String gearType, String carBrand);
+
+    List<Car> findCarsByLocationIdAndFuelAndCarBrand(int locationId, String fuel, String carBrand);
+    List<Car> findCarsByLocationIdAndTypeAndCarBrand(int locationId, String type, String carBrand);
+    List<Car> findCarsByLocationIdAndGearAndCarBrand(int locationId, String gearType, String carBrand);
+    List<Car> findCarsByTypeAndFuelAndCarBrand(String type,String fuel, String carBrand);
+    List<Car> findCarsByTypeAndGearAndCarBrand(String type,String gearType, String carBrand);
+    List<Car> findCarsByLocationIdAndCarBrand(int locationId, String carBrand);
+    List<Car> findCarsByFuelAndCarBrand(String fuel, String carBrand);
+    List<Car> findCarsByGearAndCarBrand(String gear, String carBrand);
+    List<Car> findCarsByTypeAndCarBrand(String type, String carBrand);
+
+
+}

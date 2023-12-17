@@ -18,6 +18,8 @@
 		<spring-boot.version>2.6.2</spring-boot.version>
 		<spring-data-mongodb.version>3.3.5</spring-data-mongodb.version>
 		<mongodb-driver.version>4.2.3</mongodb-driver.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 
 	<dependencies>

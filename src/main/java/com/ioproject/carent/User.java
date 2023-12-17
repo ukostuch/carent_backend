@@ -37,7 +37,8 @@ public class User {
 
     private Collection<Role> roles;
 
-    public User(int user_id, String username, String name, String surname, String email, int phoneNumber, int birthYear, int birthMonth, int birthDay, String seriesDriverLicense, String password, List<Role> roles){
+
+    public User(int user_id, String username, String name, String surname, String email, int phoneNumber, int birthYear, int birthMonth, int birthDay, String seriesDriverLicense, String password){
         setUserId(user_id);
         setUsername(username);
         setName(name);
