@@ -18,9 +18,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/update/user/{id}/{password}")
+    /*@GetMapping("/update/user/{id}/{password}")
     public ResponseEntity<UpdateResult> updateUserPassword(@PathVariable int id, @PathVariable String password) {
         return new ResponseEntity<>(userService.updatePassword(id,password),HttpStatus.OK);
+    }*/
+
+    @GetMapping("/update/user/{username}/{password}")
+    public ResponseEntity<UpdateResult> updateUserPassword(@PathVariable String username, @PathVariable String password) {
+        return new ResponseEntity<>(userService.updatePassword(username,password),HttpStatus.OK);
     }
 
    /*@CrossOrigin(origins = "http://localhost:3000")
@@ -92,10 +97,10 @@ public class UserController {
 
     @PostMapping("/login2")
     public ResponseEntity<String> loginUser(@RequestBody Map<String, String> credentials) {
-        String email = credentials.get("email");
+        String username = credentials.get("username");
         String password = credentials.get("password");
 
-        if (userService.authenticateUser(email, password)) {
+        if (userService.authenticateUser(username, password)) {
             return new ResponseEntity<>("Login successful", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);

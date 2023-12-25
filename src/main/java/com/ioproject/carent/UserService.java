@@ -50,13 +50,14 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findByUsername(String username){
-        return userRepository.findByEmail(username);
+    public User findByUsername(String email){
+        return userRepository.findByEmail(email);
     }
+
 
     public List<Rental> findRentalsforUser(String username) {
         User realuser = findByUsername(username);
-        return rentalService.getRentalsForUser(realuser.getUserId());
+        return rentalService.getRentalsForUser(username);  //zmienione
     }
 
     public User getUserDetails(String username){
@@ -73,10 +74,18 @@ public class UserService {
         return maxUserId + 1;
     }
 
-    public UpdateResult updatePassword(int userId, String password){
+    /*public UpdateResult updatePassword(int userId, String password){
         Query query = new Query(Criteria.where("userId").is(userId));
         Update update = new Update().set("password", password);
         updateRoles(userId);
+        return mongoTemplate.updateFirst(query, update, User.class);
+    }*/
+    public UpdateResult updatePassword(String username, String password){
+        User user = userRepository.findByUsername(username);
+        int user_id = user.getUserId();
+        Query query = new Query(Criteria.where("userId").is(user_id));
+        Update update = new Update().set("password", password);
+        updateRoles(user_id);
         return mongoTemplate.updateFirst(query, update, User.class);
     }
 
@@ -85,8 +94,8 @@ public class UserService {
         Update update = new Update().set("roles",Arrays.asList(new Role("ROLE_USER")));
     }
 
-    public boolean authenticateUser(String email, String password) {
-        User user = userRepository.findByEmail(email);
+    public boolean authenticateUser(String username, String password) {
+        User user = userRepository.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
             return true;
         } else {

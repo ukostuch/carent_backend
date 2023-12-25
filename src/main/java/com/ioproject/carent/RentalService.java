@@ -16,13 +16,24 @@ public class RentalService {
     private RentalRepository rentalRepository;
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired  // dodane
+    private UserRepository userRepository;
 
-    public Rental createRental(int rental_id, int user_id, int car_id, String date_from, String date, int cost){
+    /*public Rental createRental(int rental_id, int user_id, int car_id, String date_from, String date, int cost){
+        return insert(new Rental(rental_id,car_id,user_id,date_from,date,cost));
+    }*/
+    public Rental createRental(int rental_id, String username, int car_id, String date_from, String date, int cost){
+        User user = userRepository.findByUsername(username);
+        int user_id = user.getUserId();
         return insert(new Rental(rental_id,car_id,user_id,date_from,date,cost));
     }
 
 
     public Rental insert(Rental rental){ return mongoTemplate.insert(rental,"rentals");}
+
+    /*public DeleteResult delete(int id){
+        return mongoTemplate.remove(Query.query(Criteria.where("rentalId").is(id)), Rental.class);
+    }*/
     public DeleteResult delete(int id){
         return mongoTemplate.remove(Query.query(Criteria.where("rentalId").is(id)), Rental.class);
     }
@@ -40,9 +51,13 @@ public class RentalService {
     public List<Rental> getAllRentalsBetweenDates(String dateFrom, String dateTo) {
         return rentalRepository.findByDateFromLessThanEqualAndDateToGreaterThanEqual(dateTo, dateFrom);
     }
-    public List<Rental> getCurrentRentals(){ return rentalRepository.findByIsCurrent(true);}
-    public List<Rental> getRentalsForUser(int userId){
-        return rentalRepository.findRentalsByUserId(userId);
+    public List<Rental> getCurrentRentals(){
+        return rentalRepository.findByIsCurrent(true);
+    }
+    public List<Rental> getRentalsForUser(String username){
+        User user = userRepository.findByUsername(username);
+        int user_id = user.getUserId();
+        return rentalRepository.findRentalsByUserId(user_id);
     }
     public List<Rental> getRentalsForCar(int carId){ return rentalRepository.findByCarId(carId);}
 }

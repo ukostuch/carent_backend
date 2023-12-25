@@ -17,14 +17,38 @@ public class RentalController {
     @Autowired
     private RentalService rentalService;
 
-    @PostMapping("/rental")
+   /* @PostMapping("/rental")
     public ResponseEntity<Rental> createRental(@RequestBody Map<String,Object> payload){
         return new ResponseEntity<Rental>(rentalService.createRental(rentalService.findRentalId(),(Integer) payload.get("userId"),(Integer) payload.get("carId"), (String) payload.get("dateFrom"), (String) payload.get("dateTo"),(Integer) payload.get("cost")), HttpStatus.CREATED);
-    }
+    }*/
+   /*@PostMapping("/rental")
+   public ResponseEntity<Rental> createRental(@RequestBody Map<String,Object> payload){
+       return new ResponseEntity<Rental>(rentalService.createRental(rentalService.findRentalId(),(String) payload.get("username"),(Integer) payload.get("carId"), (String) payload.get("dateFrom"), (String) payload.get("dateTo"),(Integer) payload.get("cost")), HttpStatus.CREATED);
+   }*/
+   @PostMapping("/rental")
+   public ResponseEntity<Rental> createRental(@RequestBody Map<String, Object> payload) {
+       String username = (String) payload.get("username");
+       String carId = (String) payload.get("carId");
+       String dateFrom = (String) payload.get("dateFrom");
+       String dateTo = (String) payload.get("dateTo");
+       int cost = (int) payload.get("cost");
+       //String username = "natsan906";
+       //String carId = "100";
+       //String dateFrom = "2023-01-03";
+       //String dateTo = "2023-01-19";
+       //String cost = "1105";
 
-    @GetMapping("/{userId}/rentals")
+       Rental rental = rentalService.createRental(rentalService.findRentalId(), username, Integer.parseInt(carId), dateFrom, dateTo, cost);
+       return new ResponseEntity<>(rental, HttpStatus.CREATED);
+   }
+
+    /*@GetMapping("/{userId}/rentals")
     public ResponseEntity<List<Rental>> rentalsOfUser(@PathVariable int userId){
         return new ResponseEntity<>(rentalService.getRentalsForUser(userId),HttpStatus.OK);
+    }*/
+    @GetMapping("/{username}/rentals")
+    public ResponseEntity<List<Rental>> rentalsOfUser(@PathVariable String username){
+        return new ResponseEntity<>(rentalService.getRentalsForUser(username),HttpStatus.OK);
     }
 
     @GetMapping("/rental/current")
@@ -37,6 +61,10 @@ public class RentalController {
         return new ResponseEntity<>(rentalService.getRentalsForCar(id),HttpStatus.OK);
     }
 
+    /*@DeleteMapping("/rental/delete/{id}")
+    public ResponseEntity<DeleteResult> deleteRental(@PathVariable int id){
+        return new ResponseEntity<>(rentalService.delete(id),HttpStatus.OK);
+    }*/
     @DeleteMapping("/rental/delete/{id}")
     public ResponseEntity<DeleteResult> deleteRental(@PathVariable int id){
         return new ResponseEntity<>(rentalService.delete(id),HttpStatus.OK);
