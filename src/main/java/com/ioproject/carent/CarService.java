@@ -158,13 +158,6 @@ public class CarService {
                 .collect(Collectors.toList());
     }
 
-    /*public List<Car> getCarsWithAllParameters(String fuel, String type, int locationId, String gear, String dateFrom,String dateTo){
-        List<Car> temp = getCarsWithFuelAndTypeAndLocationAndGear(fuel,type,locationId,gear);
-        List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
-        List<Car> commonCars = new ArrayList<>(temp);
-        commonCars.retainAll(temp2);
-        return commonCars;
-    }*/
     public List<Car> findAvailableCarsBetweenDatesAndCarBrand(String dateFrom,String dateTo,String carBrand){
         List<Car> temp = getCarsOfCarBrand(carBrand);
         List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
@@ -330,7 +323,6 @@ public class CarService {
         return commonCars;
     }
 
-
     public List<Car> getCarsWithFuelandDates(String fuel, String dateFrom,String dateTo){
         List<Car> temp = getCarsOfFuel(fuel);
         List<Car> temp2 = findAvailableCarsBetweenDates(dateFrom,dateTo);
@@ -402,11 +394,6 @@ public class CarService {
         Update update = new Update().set("technicalCondition", newFieldValue);
         return mongoTemplate.updateFirst(query, update, Car.class);
     }
-
-
-
-
-
 }
 
 

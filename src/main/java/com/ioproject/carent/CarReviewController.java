@@ -59,31 +59,6 @@ import java.util.Map;
 public class CarReviewController {
     @Autowired
     private CarReviewService carReviewService;
-
-    /*@PostMapping("/carreview/write")
-    public ResponseEntity<?> createReview(@RequestBody Map<String, Object> payload) {
-        try {
-            if (payload.get("comment") == null || payload.get("carId") == null || payload.get("userName") == null || payload.get("userCountry") == null) {
-                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wymagane pola nie są ustawione.");
-            }
-
-            CarReview review = carReviewService.createReview(
-                    (String) payload.get("comment"),
-                    (Integer) payload.get("carId"),
-                    (String) payload.get("userName"),
-                    (String) payload.get("userCountry"));
-
-
-            return new ResponseEntity<>(review, HttpStatus.CREATED);
-
-        } catch (HttpClientErrorException e) {
-            // Przechwyć błąd HTTP 400 i zwróć odpowiedź z odpowiednim statusem.
-            return new ResponseEntity<>(e.getStatusCode());
-        } catch (Exception e) {
-            // Przechwyć inne wyjątki i zwróć odpowiedź z kodem 500 (Internal Server Error).
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }*/
     @PostMapping("/carreview/write")
     public ResponseEntity<?> createReview(@RequestBody Map<String, Object> payload) {
         try {
@@ -103,10 +78,8 @@ public class CarReviewController {
             return new ResponseEntity<>(review, HttpStatus.CREATED);
 
         } catch (HttpClientErrorException e) {
-            // Przechwyć błąd HTTP 400 i zwróć odpowiedź z odpowiednim statusem.
             return new ResponseEntity<>(e.getStatusCode());
         } catch (Exception e) {
-            // Przechwyć inne wyjątki i zwróć odpowiedź z kodem 500 (Internal Server Error).
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

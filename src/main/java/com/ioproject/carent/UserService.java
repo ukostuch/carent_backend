@@ -74,12 +74,6 @@ public class UserService {
         return maxUserId + 1;
     }
 
-    /*public UpdateResult updatePassword(int userId, String password){
-        Query query = new Query(Criteria.where("userId").is(userId));
-        Update update = new Update().set("password", password);
-        updateRoles(userId);
-        return mongoTemplate.updateFirst(query, update, User.class);
-    }*/
     public UpdateResult updatePassword(String username, String password){
         User user = userRepository.findByUsername(username);
         int user_id = user.getUserId();

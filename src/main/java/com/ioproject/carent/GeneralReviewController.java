@@ -61,25 +61,17 @@ public class GeneralReviewController {
     @PostMapping("/reviews/write")
     public ResponseEntity<?> createReview(@RequestBody Map<String, Object> payload) {
         try {
-            // Tutaj umieść kod obsługujący błędy i walidację danych.
-            // Na przykład, sprawdź, czy wymagane pola są obecne itp.
-
-            // Jeśli walidacja nie powiedzie się, rzuć HttpClientErrorException z błędem 400.
             if (payload.get("comment") == null || payload.get("userName") == null || payload.get("userCountry") == null) {
                 throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Wymagane pola nie są ustawione.");
             }
-
-            // Jeśli dane są poprawne, utwórz recenzję.
             GeneralReview review = genReviewService.createReview(
                     (String) payload.get("comment"),
                     (String) payload.get("userName"),
                     (String) payload.get("userCountry"));
 
-            // Zwróć odpowiedź z kodem 201 (Created).
             return new ResponseEntity<>(review, HttpStatus.CREATED);
 
         } catch (HttpClientErrorException e) {
-            // Przechwyć błąd HTTP 400 i zwróć odpowiedź z odpowiednim statusem.
             return new ResponseEntity<>(e.getStatusCode());
         } catch (Exception e) {
             // Przechwyć inne wyjątki i zwróć odpowiedź z kodem 500 (Internal Server Error).
